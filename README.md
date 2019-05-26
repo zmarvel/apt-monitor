@@ -6,11 +6,42 @@ need package upgrades. It uses the [asyncssh][asyncssh] library to establish
 an SSH connection to a list of systems, and the [Flask][flask] framework for
 the web interface.
 
+
 ## Usage
 
 apt-monitor should be provided with a list of systems to monitor, as well as an
 SSH key associated with each system. It can be configured to poll each system
 after a particular interval has elapsed.
+
+
+### Configuration
+
+apt-monitor looks for `apt-monitor.ini` in the project root (the same folder as
+the `src` directory) by default. Here's an example:
+
+```
+[apt-monitor]
+interval=60
+
+[DEFAULTS]
+IdentityFile=~/.ssh/id_rsa
+User=zack
+
+[system1]
+
+[system2]
+IdentityFile=~/.ssh/id_rsa_other
+```
+
+### Running
+
+The project can be run from the project root with
+```
+$ FLASK_APP=src/web.py flask run
+```
+
+It can be stopped with Ctrl-C.
+
 
 ## Considerations
 
