@@ -1,0 +1,16 @@
+
+a.host-expand {
+    font-weight: bold;
+}
+
+table.host-packages {
+    width: 100%;
+}
+
+table.host-packages thead th {
+    border-bottom: 1px solid black;
+}
+
+body {
+    font-family: sans-serif;
+}

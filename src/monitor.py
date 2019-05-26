@@ -5,6 +5,8 @@ import asyncssh
 import asyncio
 from pathlib import Path
 
+from .package_list import PackageList
+
 # 5 minutes
 DEFAULT_INTERVAL = 5*60
 
@@ -28,6 +30,9 @@ class Monitor(threading.Thread):
 
         self._done = False
         self._status = {}
+        for host in self.config.get_hosts():
+            if host not in ['DEFAULTS', 'apt-monitor']:
+                self._status[host] = PackageList()
 
     def run(self):
         while not self._done:
@@ -48,8 +53,7 @@ class Monitor(threading.Thread):
                 tasks.append(self.check_host(host))
         results = await asyncio.gather(*tasks, return_exceptions=True)
         for (host, stdout, stderr) in results:
-            self._status[host] = list(
-                filter(lambda line: line != '', stdout))
+            self._status[host] = PackageList(stdout)
             print('HOST {} => {}'.format(host, stderr))
 
     async def check_host(self, host):
@@ -74,7 +78,8 @@ class Monitor(threading.Thread):
             upgradable_list = conn.run(cmd)
             completed = await upgradable_list
             if completed.exit_status == 0:
-                return (host, completed.stdout.splitlines(),
+                return (host, list(filter(lambda line: line != '',
+                                          completed.stdout.splitlines())),
                         completed.stderr.splitlines())
             else:
                 raise ConnectionError(host)

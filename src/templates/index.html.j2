@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+    <head>
+        <title>apt-monitor</title>
+        <link rel="stylesheet" type="text/css" href="{{ stylesheet }}">
+        <script src="{{ script }}"></script>
+    </head>
+    <body>
+        <h1>apt-monitor</h1>
+        <h2>Hosts</h2>
+        <ul>
+        {% for host in config.get_hosts() %}
+        <li>
+            <a href="#" class="host-expand">{{ host }}</a>: {{ monitor.get_status(host).packages|length }} upgradable
+            <table class="host-packages">
+                <thead>
+                    <tr>
+                        <th scope='col'>Package</th>
+                        <th scope='col'>Source</th>
+                        <th scope='col'>Upgradable From</th>
+                        <th scope='col'>Upgradable To</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pkg in monitor.get_status(host).packages %}
+                    <tr>
+                        <th scope='row'>{{ pkg.name }}</th>
+                        <td>{{ pkg.source }}</td>
+                        <td>{{ pkg.old }}</td>
+                        <td>{{ pkg.new }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </li>
+        {% endfor %}
+        </ul>
+    </body>
+</html>
