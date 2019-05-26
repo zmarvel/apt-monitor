@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+    <head>
+        <title>apt-monitor</title>
+    </head>
+    <body>
+        <h1>apt-monitor</h1>
+        <h2>Hosts</h2>
+        <ul>
+        {% for host in config.get_hosts() %}
+            <li><b>{{ host }}</b>: {{ monitor.get_status(host) }}</li>
+        {% endfor %}
+        </ul>
+    </body>
+</html>
