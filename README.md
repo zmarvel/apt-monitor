@@ -2,7 +2,7 @@
 # apt-monitor
 
 apt-monitor provides a web interface to easily view which Aptitude-based systems
-need package upgrades. It uses the [Paramiko][parakmiko] library to establish
+need package upgrades. It uses the [asyncssh][asyncssh] library to establish
 an SSH connection to a list of systems, and the [Flask][flask] framework for
 the web interface.
 
@@ -23,5 +23,5 @@ after a particular interval has elapsed.
 
 
 
-[parakmiko]: http://www.paramiko.org/
+[asyncssh]: https://asyncssh.readthedocs.io/en/latest/
 [flask]: http://flask.pocoo.org/
